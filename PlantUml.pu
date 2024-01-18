@@ -1,0 +1,30 @@
+@startuml
+
+actor "User" as user
+participant "Felica Device" as felica
+database "Spreadsheet" as spreadsheet
+database "Database" as database
+actor "Program" as program
+
+user -> felica: 1. タッチ（入退室検知）
+felica -> spreadsheet: 2. データ記録（入室回数、入退室時刻、滞在時間）
+
+alt ユーザがデータベースに存在
+spreadsheet --> database: 3. ユーザ照会
+database -> program: 4. ユーザ情報取得
+program -> spreadsheet: 5. ユーザ情報取得完了
+spreadsheet -> program: 6. ユーザ情報送信
+program -> discordBot: 7. 通知（ディスコードメッセージ送信）
+program -> switchBot: 8. 通知（鍵アンロック要求）
+
+else ユーザがデータベースに存在しない
+spreadsheet --> program: 3. ユーザ照会
+program --> spreadsheet: 9. 何もしない
+
+end
+
+@enduml
+
+
+以下の情報からplantumlでシーケンス図を作成するテキストを生成してください
+・ユーザがフェリカデバイスにタッチすることで入試t
